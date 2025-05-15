@@ -147,6 +147,18 @@
          (local-time:unix-to-timestamp 8639999999)
          b))))
 
+(test query-timestamp-ns
+  (test-query (ddb:concat "SELECT '1970-01-01 23:59:59'::timestamp_ns AS a"
+                          ", '2243-10-16 23:59:59'::timestamp_ns AS b")
+      nil
+      (a b)
+    (is (local-time:timestamp=
+         (local-time:unix-to-timestamp 86399)
+         a))
+    (is (local-time:timestamp=
+         (local-time:unix-to-timestamp 8639999999)
+         b))))
+
 (test query-interval
   (test-query (ddb:concat "SELECT INTERVAL 1001 YEAR "
                           "+ INTERVAL 1001 MONTH "
